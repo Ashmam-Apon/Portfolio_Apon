@@ -66,13 +66,6 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const updateData = (newData: PortfolioData) => {
     setData(newData);
-    
-    // Notify user on mobile devices to reload for changes to take effect
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-      // Set a flag that can be checked by the app
-      sessionStorage.setItem('portfolio_updated', 'true');
-    }
   };
 
   const resetToDefaults = () => {

@@ -17,9 +17,8 @@ export const CacheBuster: React.FC = () => {
       const lastUpdate = localStorage.getItem('portfolio_data_timestamp');
       const lastChecked = sessionStorage.getItem('last_cache_check');
       
-      if (lastUpdate && lastChecked && lastUpdate > lastChecked) {
+      if (lastUpdate && lastChecked && parseInt(lastUpdate, 10) > parseInt(lastChecked, 10)) {
         // Data was updated in another tab/session, reload to get fresh data
-        console.log('Portfolio data updated, reloading...');
         window.location.reload();
       }
       
