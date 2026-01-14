@@ -12,6 +12,7 @@ import { PortfolioProvider } from './context/PortfolioContext';
 import { Dashboard } from './components/Dashboard';
 import { AdminLogin } from './components/AdminLogin';
 import { ContactModal } from './components/ContactModal';
+import { CacheBuster } from './components/CacheBuster';
 
 function AppContent() {
   const [showLogin, setShowLogin] = useState(false);
@@ -20,6 +21,7 @@ function AppContent() {
 
   return (
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 relative transition-colors duration-300">
+      <CacheBuster />
       
       {showLogin && (
         <AdminLogin 

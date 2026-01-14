@@ -56,6 +56,8 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   // Persist changes
   useEffect(() => {
     localStorage.setItem('portfolio_data', JSON.stringify(data));
+    // Update timestamp whenever data changes
+    localStorage.setItem('portfolio_data_timestamp', Date.now().toString());
   }, [data]);
 
   useEffect(() => {
