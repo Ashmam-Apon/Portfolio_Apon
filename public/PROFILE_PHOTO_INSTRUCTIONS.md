@@ -12,10 +12,10 @@ Your profile photo is not showing because it needs to be added to this repositor
    - Keep file size under 1MB
 
 2. **Update `constants.ts`** (in the root directory)
-   - Find line 14 (the `avatar:` field)
+   - Find line 17 (the `avatar:` field)
    - Change it from:
      ```typescript
-     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80",
+     avatar: "/profile-placeholder.svg",
      ```
    - To:
      ```typescript

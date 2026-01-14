@@ -30,10 +30,10 @@ OR use your original photo file directly.
 ### Step 3: Update constants.ts
 
 1. Open `constants.ts` in the root directory
-2. Find line 14 (the `avatar:` field in the `profile` object)
+2. Find line 17 (the `avatar:` field in the `profile` object)
 3. Change from:
    ```typescript
-   avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80",
+   avatar: "/profile-placeholder.svg",
    ```
 4. To:
    ```typescript
