@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
 import { X, Save, RotateCcw, MessageSquare, Layout, LogOut, Trash2, CheckCircle, Shield, Key, User, Image, Briefcase, Code, Plus, Upload, Link as LinkIcon, GraduationCap, Globe, Trophy, Users, Heart } from 'lucide-react';
-import { Project, Slide, SocialLink, Experience, Education, Award, Activity } from '../types';
+import { Project, Slide, SocialLink, Experience, Education, Award, Activity, SkillCategory } from '../types';
 
 interface DashboardProps {
   onClose: () => void;
@@ -10,7 +10,7 @@ interface DashboardProps {
 
 export const Dashboard: React.FC<DashboardProps> = ({ onClose, onLogout }) => {
   const { data, updateData, messages, markRead, deleteMessage, resetToDefaults } = usePortfolio();
-  const [activeTab, setActiveTab] = useState<'messages' | 'profile' | 'experience' | 'projects' | 'slideshow' | 'awards' | 'activities' | 'volunteering' | 'advanced' | 'security'>('messages');
+  const [activeTab, setActiveTab] = useState<'messages' | 'profile' | 'experience' | 'projects' | 'skills' | 'slideshow' | 'awards' | 'activities' | 'volunteering' | 'advanced' | 'security'>('messages');
   
   // JSON Editor State
   const [jsonInput, setJsonInput] = useState(JSON.stringify(data, null, 2));
@@ -127,6 +127,27 @@ export const Dashboard: React.FC<DashboardProps> = ({ onClose, onLogout }) => {
   const deleteSocialWork = (idx: number) => {
     if (confirm('Delete this volunteering item?')) {
         updateData({ ...data, socialWork: data.socialWork.filter((_, i) => i !== idx) });
+    }
+  };
+
+  // Skills Management
+  const [editingSkill, setEditingSkill] = useState<Partial<SkillCategory> | null>(null);
+  const [skillIndex, setSkillIndex] = useState(-1);
+  const [isNewSkill, setIsNewSkill] = useState(false);
+
+  const saveSkill = () => {
+    if (!editingSkill || !editingSkill.category) return;
+    const newSkills = [...data.skills];
+    if (isNewSkill) newSkills.unshift(editingSkill as SkillCategory);
+    else newSkills[skillIndex] = editingSkill as SkillCategory;
+    updateData({ ...data, skills: newSkills });
+    setEditingSkill(null);
+  };
+
+  const deleteSkill = (idx: number) => {
+    if (confirm('Delete this skill category?')) {
+      const newSkills = data.skills.filter((_, i) => i !== idx);
+      updateData({ ...data, skills: newSkills });
     }
   };
 
@@ -323,6 +344,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ onClose, onLogout }) => {
           </button>
           <button onClick={() => setActiveTab('projects')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === 'projects' ? 'bg-purple-600' : 'text-zinc-400 hover:bg-zinc-800'}`}>
             <Briefcase size={18} /> Projects
+          </button>
+          <button onClick={() => setActiveTab('skills')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === 'skills' ? 'bg-purple-600' : 'text-zinc-400 hover:bg-zinc-800'}`}>
+            <Code size={18} /> Technical Expertise
           </button>
           <button onClick={() => setActiveTab('awards')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === 'awards' ? 'bg-purple-600' : 'text-zinc-400 hover:bg-zinc-800'}`}>
             <Trophy size={18} /> Awards
@@ -626,6 +650,52 @@ export const Dashboard: React.FC<DashboardProps> = ({ onClose, onLogout }) => {
           </div>
         )}
 
+        {activeTab === 'skills' && (
+          <div className="max-w-4xl mx-auto animate-in slide-in-from-right-4 duration-300 pb-12">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2"><Code size={24}/> Technical Expertise</h3>
+              <button onClick={() => { setEditingSkill({ category: '', items: [] }); setIsNewSkill(true); }} className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 text-sm font-bold"><Plus size={16} /> Add Skill Category</button>
+            </div>
+             {editingSkill ? (
+                <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 space-y-4">
+                  <h4 className="font-bold">{isNewSkill ? 'Add New' : 'Edit'} Skill Category</h4>
+                  <div>
+                      <label className="block text-sm font-medium mb-2">Category Name</label>
+                      <input placeholder="E.g. Programming Languages, Frameworks, Databases" value={editingSkill.category || ''} onChange={e => setEditingSkill({...editingSkill, category: e.target.value})} className="w-full px-4 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700" />
+                  </div>
+                  <div>
+                      <label className="block text-sm font-medium mb-2">Skills (comma-separated)</label>
+                      <textarea placeholder="E.g. JavaScript, TypeScript, React, Next.js" rows={3} value={Array.isArray(editingSkill.items) ? editingSkill.items.join(', ') : editingSkill.items} onChange={e => setEditingSkill({...editingSkill, items: e.target.value.split(',').map((item: string) => item.trim())})} className="w-full px-4 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700" />
+                      <p className="text-xs text-zinc-500 mt-2">Separate each skill with a comma</p>
+                  </div>
+                  <div className="flex justify-end gap-2">
+                      <button onClick={() => setEditingSkill(null)} className="px-4 py-2 text-sm text-zinc-500">Cancel</button>
+                      <button onClick={saveSkill} className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-bold">Save</button>
+                  </div>
+                </div>
+             ) : (
+                <div className="space-y-3">
+                  {data.skills.map((skill, i) => (
+                      <div key={i} className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 gap-4">
+                        <div className="flex-1">
+                            <div className="font-bold text-lg mb-2">{skill.category}</div>
+                            <div className="flex flex-wrap gap-2">
+                              {skill.items.map((item, idx) => (
+                                <span key={idx} className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-xs font-medium">{item}</span>
+                              ))}
+                            </div>
+                        </div>
+                        <div className="flex gap-2 w-full sm:w-auto">
+                            <button onClick={() => { setEditingSkill(skill); setIsNewSkill(false); setSkillIndex(i); }} className="flex-1 sm:flex-none px-4 py-2 bg-zinc-100 dark:bg-zinc-700 rounded-lg text-sm font-bold hover:bg-zinc-200 dark:hover:bg-zinc-600 transition-colors">Edit</button>
+                            <button onClick={() => deleteSkill(i)} className="flex-1 sm:flex-none px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg text-sm font-bold hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors">Delete</button>
+                        </div>
+                      </div>
+                  ))}
+                </div>
+             )}
+          </div>
+        )}
+
         {activeTab === 'activities' && (
           <div className="max-w-4xl mx-auto animate-in slide-in-from-right-4 duration-300 pb-12">
             <div className="flex justify-between items-center mb-6">
@@ -704,7 +774,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ onClose, onLogout }) => {
           </div>
         )}
 
-        {/* ... Rest of Dashboard (Projects, Slideshow, Advanced, Security, etc.) remain unchanged ... */}
         {activeTab === 'projects' && (
            <div className="max-w-4xl mx-auto animate-in slide-in-from-right-4 duration-300 pb-12">
              <div className="flex justify-between items-center mb-6">
