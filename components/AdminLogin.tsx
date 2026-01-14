@@ -12,8 +12,8 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin, onCancel }) => 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Get password from storage or default to 'admin123'
-    const currentPassword = localStorage.getItem('admin_password') || 'admin123';
+    // Get password from storage or default to 'iamtheadmin321'
+    const currentPassword = localStorage.getItem('admin_password') || 'iamtheadmin321';
     
     if (password === currentPassword) {
       onLogin();
