@@ -10,8 +10,11 @@ export const DATA: PortfolioData = {
     location: "Dhaka, Bangladesh",
     email: "ashmamaponr@gmail.com",
     phone: "+880 1710371161",
-    // Use the Admin Dashboard to upload your actual photo
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80", 
+    // IMPORTANT: Replace this placeholder with your actual photo
+    // 1. Add your photo to public/ folder (e.g., public/profile.jpg)
+    // 2. Update this line to: avatar: "/profile.jpg"
+    // See HOW_TO_ADD_PROFILE_PHOTO.md for detailed instructions
+    avatar: "/profile-placeholder.svg", 
     resumeUrl: "/resume.pdf"
   },
   slideshow: [
