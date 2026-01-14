@@ -3,9 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate, max-age=0" />
     <meta http-equiv="pragma" content="no-cache" />
     <meta http-equiv="expires" content="0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <title>Md. Ashmam Zaman Apon | Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -52,12 +54,35 @@
   <body class="bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased transition-colors duration-300">
     <div id="root"></div>
     <script>
-      // Check for saved theme or system preference
-      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-      }
+      // Cache busting for mobile browsers
+      // This ensures that when data is updated via admin dashboard, mobile browsers will reload
+      (function() {
+        // Clear any service workers that might exist
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+              registration.unregister();
+            }
+          });
+        }
+        
+        // Check if portfolio data version has changed
+        const CURRENT_VERSION = 'v1.0.0';
+        const storedVersion = localStorage.getItem('portfolio_version');
+        const lastDataUpdate = localStorage.getItem('portfolio_data_timestamp');
+        
+        // Store current version
+        if (storedVersion !== CURRENT_VERSION) {
+          localStorage.setItem('portfolio_version', CURRENT_VERSION);
+        }
+        
+        // Check for saved theme or system preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
+        }
+      })();
     </script>
     <script type="module" src="/index.tsx"></script>
   </body>
