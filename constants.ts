@@ -11,7 +11,7 @@ export const DATA: PortfolioData = {
     email: "ashmamaponr@gmail.com",
     phone: "+880 1710371161",
     // Use the Admin Dashboard to upload your actual photo
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80", 
+    avatar: "https://photos.app.goo.gl/3wkeTBhcuZkJuzxS7", 
     resumeUrl: "/resume.pdf"
   },
   slideshow: [
