@@ -48,6 +48,11 @@ This project goes beyond a static site by integrating a comprehensive **Admin Da
     npm start
     ```
 
+4.  **Add Your Profile Photo** ⚠️ **IMPORTANT**
+    - Photos uploaded via Dashboard don't persist in deployment
+    - Follow instructions in [HOW_TO_ADD_PROFILE_PHOTO.md](HOW_TO_ADD_PROFILE_PHOTO.md)
+    - Add your photo to `public/` folder and update `constants.ts`
+
 ## 🔐 Admin Access
 
 To access the CMS dashboard:
