@@ -1,0 +1,19 @@
+<svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="800" fill="#f4f4f5"/>
+  
+  <!-- Circle background -->
+  <circle cx="400" cy="400" r="300" fill="#e4e4e7"/>
+  
+  <!-- User icon -->
+  <circle cx="400" cy="320" r="80" fill="#a1a1aa"/>
+  <path d="M 400 420 Q 200 500 200 600 L 600 600 Q 600 500 400 420 Z" fill="#a1a1aa"/>
+  
+  <!-- Text -->
+  <text x="400" y="720" font-family="Arial, sans-serif" font-size="24" fill="#71717a" text-anchor="middle">
+    Replace with your photo
+  </text>
+  <text x="400" y="750" font-family="Arial, sans-serif" font-size="18" fill="#a1a1aa" text-anchor="middle">
+    800 x 800 px recommended
+  </text>
+</svg>

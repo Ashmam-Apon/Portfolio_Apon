@@ -510,6 +510,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ onClose, onLogout }) => {
                           <input type="file" accept="image/*" className="hidden" onChange={handleProfileImageUpload} />
                       </label>
                   </div>
+                  <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+                    <p className="text-xs text-amber-800 dark:text-amber-200">
+                      ⚠️ <strong>Note:</strong> Uploaded images are stored in browser only. For deployment, add your photo to <code className="bg-amber-100 dark:bg-amber-900 px-1 rounded">public/</code> folder and update <code className="bg-amber-100 dark:bg-amber-900 px-1 rounded">constants.ts</code>. See HOW_TO_ADD_PROFILE_PHOTO.md
+                    </p>
+                  </div>
                 </div>
 
                 <div className="bg-white dark:bg-zinc-900 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800">
