@@ -12,7 +12,8 @@ export const CacheBuster: React.FC = () => {
     
     if (!isMobile) return; // Desktop browsers handle cache better
     
-    const checkInterval = setInterval(() => {
+    // Initial check on mount
+    const checkForUpdates = () => {
       const lastUpdate = localStorage.getItem('portfolio_data_timestamp');
       const lastChecked = sessionStorage.getItem('last_cache_check');
       
@@ -24,10 +25,13 @@ export const CacheBuster: React.FC = () => {
       
       // Update last checked time
       sessionStorage.setItem('last_cache_check', Date.now().toString());
-    }, 30000); // Check every 30 seconds
+    };
     
-    // Set initial check time
-    sessionStorage.setItem('last_cache_check', Date.now().toString());
+    // Check immediately on mount
+    checkForUpdates();
+    
+    // Then check periodically
+    const checkInterval = setInterval(checkForUpdates, 30000); // Check every 30 seconds
     
     return () => clearInterval(checkInterval);
   }, []);

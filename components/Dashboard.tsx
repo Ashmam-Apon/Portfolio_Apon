@@ -907,6 +907,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ onClose, onLogout }) => {
                  <p className="text-sm text-zinc-500">Full control over every field.</p>
               </div>
               <div className="flex gap-3">
+                 <button onClick={() => {
+                   if (confirm('Clear all browser cache and reload? This will help mobile browsers see the latest updates.')) {
+                     localStorage.setItem('portfolio_data_timestamp', Date.now().toString());
+                     sessionStorage.clear();
+                     window.location.reload();
+                   }
+                 }} className="flex items-center gap-2 px-4 py-2 text-zinc-500 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-sm font-medium hover:bg-zinc-300 dark:hover:bg-zinc-700">
+                   <RotateCcw size={16} /> Clear Cache
+                 </button>
                  <button onClick={resetToDefaults} className="flex items-center gap-2 px-4 py-2 text-zinc-500 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-sm font-medium"><RotateCcw size={16} /> Reset</button>
                  <button onClick={handleSaveJson} className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm font-bold"><Save size={16} /> Save Changes</button>
               </div>
